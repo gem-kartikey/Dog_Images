@@ -18,20 +18,20 @@ node{
     }
     stage('Building Docker Image')
     {
-        bat 'docker build -t dog-image:latest .'
+        sh 'docker build -t dog-image:latest .'
         echo "build succesfully..."
     }
     stage('push image to nexus')
     {
         withDockerRegistry([credentialsId: nexus-credentials , url:"${nexusUrl}"])
-        bat "docker tag dog-image:latest"
-        bat "docker push ${nexusUrl}"
+        sh "docker tag dog-image:latest"
+        sh "docker push ${nexusUrl}"
         echo "Image pushed to nexus repo..."
     }
     stage('Deploy')
     {
-        bat 'kubectl apply -f deployment.yaml'
-        bat 'kubectl apply -f service.yaml'
+        sh 'kubectl apply -f deployment.yaml'
+        sh 'kubectl apply -f service.yaml'
     }
     
 }
