@@ -9,7 +9,7 @@ node{
         try
         {
             // Checkout the git repository using the creditials
-            git branch: branch , url: gitUrl , credentialsId: credentialsId
+            git branch: branch , url: gitUrl
         }
         catch (Exception e)
         {
