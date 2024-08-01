@@ -2,33 +2,35 @@ node {
     def gitUrl = 'https://github.com/gem-kartikey/Dog_Images.git'
     def branch = 'main'
     def credentialsId = '78f52c88-4ff7-4b93-9637-fff00e450f4a'
-    def nexus_credentials = 'd9553985-3e45-4075-bcea-58d2ecdaf140'
-    def nexusUrl = 'http://localhost:8081/repository/Dog_images/'
+    def dockerCredentialsId = 'd9553985-3e45-4075-bcea-58d2ecdaf140'
+    def repositoryName = 'dog_image'  // Docker Hub repository name
     
-    stage('Clone repository') {
+    stage('Clone Repository') {
         try {
             // Checkout the git repository using the credentials
             git branch: branch, url: gitUrl, credentialsId: credentialsId
         } catch (Exception e) {
-            throw e
+            error "Failed to clone repository: ${e.getMessage()}"
         }
     }
     
-    stage('Building Docker Image') {
+    stage('Build Docker Image') {
         bat 'docker build -t dog-image:latest .'
         echo "Build successfully..."
     }
     
-    stage('Publish image to Nexus') {
-        withDockerRegistry([credentialsId: "${nexus_credentials}", url: "${nexusUrl}"]) {
-            bat 'docker tag dog-image:latest ${nexusUrl}/dog-image:latest'
-            bat 'docker push ${nexusUrl}/dog-image:latest'
-            echo "Image published to Nexus repo..."
+    stage('Publish Image to Docker Hub') {
+        withCredentials([usernamePassword(credentialsId: dockerCredentialsId, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+            bat 'echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin'
+            bat 'docker tag dog-image:latest %DOCKER_USERNAME%/%repositoryName%:latest'
+            bat 'docker push %DOCKER_USERNAME%/%repositoryName%:latest'
+            echo "Image published to Docker Hub..."
         }
     }
     
     stage('Deploy') {
         bat 'kubectl apply -f deployment.yaml'
         bat 'kubectl apply -f service.yaml'
+        echo "Deployment applied successfully..."
     }
 }
