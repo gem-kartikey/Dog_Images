@@ -2,7 +2,7 @@ node {
     def gitUrl = 'https://github.com/gem-kartikey/Dog_Images.git'
     def branch = 'main'
     def credentialsId = '78f52c88-4ff7-4b93-9637-fff00e450f4a'
-    def dockerCredentialsId = 'd9553985-3e45-4075-bcea-58d2ecdaf140'
+    def dockerCredentialsId = 'a0d3cb57-d789-49f5-aa39-5148dbee388c'
     def repositoryName = 'dog_image'  // Docker Hub repository name
     
     stage('Clone Repository') {
