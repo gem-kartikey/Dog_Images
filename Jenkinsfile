@@ -9,7 +9,7 @@ node{
         try
         {
             // Checkout the git repository using the creditials
-            git branch: branch , url: gitUrl
+            git branch: branch , url: gitUrl , credentialsId: credentialsId
         }
         catch (Exception e)
         {
@@ -18,20 +18,20 @@ node{
     }
     stage('Building Docker Image')
     {
-        sh 'docker build -t dog-image:latest .'
+        bat 'docker build -t dog-image:latest .'
         echo "build succesfully..."
     }
-    stage('push image to nexus')
+    stage('pubat image to nexus')
     {
         withDockerRegistry([credentialsId: nexus-credentials , url:"${nexusUrl}"])
-        sh "docker tag dog-image:latest"
-        sh "docker push ${nexusUrl}"
-        echo "Image pushed to nexus repo..."
+        bat "docker tag dog-image:latest"
+        bat "docker pubat ${nexusUrl}"
+        echo "Image pubated to nexus repo..."
     }
     stage('Deploy')
     {
-        sh 'kubectl apply -f deployment.yaml'
-        sh 'kubectl apply -f service.yaml'
+        bat 'kubectl apply -f deployment.yaml'
+        bat 'kubectl apply -f service.yaml'
     }
     
 }
