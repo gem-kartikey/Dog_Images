@@ -5,7 +5,7 @@ node {
     def dockerCredentialsId = '7638944f-8bac-4c78-b0af-83ff20799219'
     def imageName = 'dog-image'  // Docker Hub repository name
     def imageTag = 'latest'
-    def nexusUrl = 'localhost:8082/repository/dog-image'
+    def nexusUrl = 'localhost:8082'
 
     stage('Clone Repository') {
         try {
