@@ -21,15 +21,17 @@ node {
         echo "Build successfully..."
     }
     
-    stage('Publish Image to Nexus reopsitory') {
-        withCredentials([usernamePassword(credentialsId: dockerCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-            bat "echo ${USERNAME}  ${PASSWORD}"
-            bat "echo $PASSWORD | docker login ${nexusUrl} --username $USERNAME --password-stdin"
-            bat "docker tag ${imageName}:${imageTag} ${nexusUrl}/${imageName}:${imageTag}"
-            bat "docker push ${nexusUrl}/${imageName}:${imageTag}"
-            echo "Image published to Docker Hub..."
+    stage('Publish Image to Nexus Repository') {
+    withCredentials([usernamePassword(credentialsId: dockerCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
+        {
+        bat "docker logout"
+        bat "echo ${PASSWORD} | docker login ${nexusUrl} --username ${USERNAME} --password-stdin"
+        bat "docker tag ${imageName}:${imageTag} ${nexusUrl}/${imageName}:${imageTag}"
+        bat "docker push ${nexusUrl}/${imageName}:${imageTag}"
+        echo "Image published to Nexus repository..."
         }
     }
+
     
     stage('Deploy') {
         bat 'kubectl apply -f deployment.yaml'
