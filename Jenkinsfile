@@ -2,9 +2,11 @@ node {
     def gitUrl = 'https://github.com/gem-kartikey/Dog_Images.git'
     def branch = 'main'
     def credentialsId = '78f52c88-4ff7-4b93-9637-fff00e450f4a'
-    def dockerCredentialsId = 'a0d3cb57-d789-49f5-aa39-5148dbee388c'
-    def repositoryName = 'dog_image'  // Docker Hub repository name
-    
+    def dockerCredentialsId = 'e4cfc01f-6aa4-488d-8ea6-e316ddc03372'
+    def imageName = 'dog-image'  // Docker Hub repository name
+    def imageTag = 'latest'
+    def nexusUrl = 'localhost:8082/repository/dog-image'
+
     stage('Clone Repository') {
         try {
             // Checkout the git repository using the credentials
@@ -15,15 +17,15 @@ node {
     }
     
     stage('Build Docker Image') {
-        bat 'docker build -t dog-image:latest .'
+        bat "docker build -t ${imageName}:${imageTag} ."
         echo "Build successfully..."
     }
     
-    stage('Publish Image to Docker Hub') {
-        withCredentials([usernamePassword(credentialsId: dockerCredentialsId, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-            bat 'echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin'
-            bat 'docker tag dog-image:latest %DOCKER_USERNAME%/%repositoryName%:latest'
-            bat 'docker push %DOCKER_USERNAME%/%repositoryName%:latest'
+    stage('Publish Image to Nexus reopsitory') {
+        withCredentials([usernamePassword(credentialsId: dockerCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            bat "echo $PASSWORD | docker login ${nexusUrl} --username $USERNAME --password-stdin"
+            bat "docker tag ${imageName}:${imageTag} ${nexusUrl}/${imageName}:${imageTag}"
+            bat "docker push ${nexusUrl}/${imageName}:${imageTag}"
             echo "Image published to Docker Hub..."
         }
     }
