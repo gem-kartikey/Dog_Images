@@ -2,7 +2,7 @@ node {
     def gitUrl = 'https://github.com/gem-kartikey/Dog_Images.git'
     def branch = 'main'
     def credentialsId = '78f52c88-4ff7-4b93-9637-fff00e450f4a'
-    def dockerCredentialsId = '7638944f-8bac-4c78-b0af-83ff20799219'
+    def dockerCredentialsId = 'f7496fe7-ef42-4ecd-9434-3e02a03ef0d1'
     def imageName = 'dog-image'  // Docker Hub repository name
     def imageTag = 'latest'
     def nexusUrl = 'http://localhost:8082/repository/dog-image'
