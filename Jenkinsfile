@@ -23,10 +23,12 @@ node {
 
     stage("Login to nexus repository")
     {
-        withCredentials([usernamePassword(credentialsId: dockerCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
-        {
-            bat "echo jenkins | docker login -u jenkins --password-stdin ${nexusUrl}"
-        }
+        // withCredentials([usernamePassword(credentialsId: dockerCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
+        // {
+        //     bat "echo jenkins | docker login -u jenkins --password-stdin ${nexusUrl}"
+        // }
+
+        bat "echo jenkins | docker login -u jenkins --password-stdin ${nexusUrl}"
         
     }
     
