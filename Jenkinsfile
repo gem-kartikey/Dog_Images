@@ -5,7 +5,7 @@ node {
     def dockerCredentialsId = 'f7496fe7-ef42-4ecd-9434-3e02a03ef0d1'
     def imageName = 'dog-image'  // Docker Hub repository name
     def imageTag = 'latest'
-    def nexusUrl = 'http://localhost:8082/repository/dog-image'
+    def nexusUrl = 'localhost:8082'
 
     stage('Clone Repository') {
         try {
@@ -30,8 +30,8 @@ node {
     }
     
     stage('Publish Image to Nexus Repository') {
-        
-        bat "docker tag ${imageName}:${imageTag} ${nexusUrl}/${imageName}:${imageTag}"
+        def imageId = docker.image("${imageName}:${imageTag}").id
+        bat "docker tag ${imageId} ${nexusUrl}/${imageName}:${imageTag}"
         bat "docker push ${nexusUrl}/${imageName}:${imageTag}"
         echo "Image published to Nexus repository..."
         
