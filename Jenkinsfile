@@ -25,7 +25,7 @@ node {
     {
         withCredentials([usernamePassword(credentialsId: dockerCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
         {
-            bat "echo $PASSWORD | docker login -u $USERNAME --password-stdin ${nexusUrl}"
+            bat "echo jenkins | docker login -u jenkins --password-stdin ${nexusUrl}"
         }
         
     }
