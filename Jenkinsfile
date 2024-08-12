@@ -25,8 +25,9 @@ node {
     {
         withCredentials([usernamePassword(credentialsId: dockerCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
         {
-            bat "echo $PASSWORD | docker login $nexusUrl --username $USERNAME --password-stdin"
+            bat "echo $PASSWORD | docker login -u $USERNAME --password-stdin ${nexusUrl}"
         }
+        
     }
     
     stage('Publish Image to Nexus Repository') {
