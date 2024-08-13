@@ -6,7 +6,7 @@ node {
     def imageName = 'dog-image'  // Docker Hub repository name
     def imageTag = 'latest'
     def nexusUrl = 'localhost:8082/repository/dog-image'
-    def KUBE_CONFIG_PATH = 'C:\\Users\\Kartikey.Varshney\\.kube\\config'
+    def KUBE_CONFIG_PATH = "C:\\Users\\Kartikey.Varshney\\.kube\\config"
     stage('Clone Repository') {
         try {
             // Checkout the git repository using the credentials
