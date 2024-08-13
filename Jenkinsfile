@@ -33,7 +33,7 @@ node {
         // docker.withRegistry("http://${nexusUrl}", "${nexusCredentialsId}") {
         // docker.image("${imageName}:latest").push()
         
-        }
+        
         echo "pushed successfully.... "
     }
     
