@@ -21,7 +21,7 @@ node {
         echo "Build successfully..."
     }
 
-    stage("Login to nexus repository")
+    stage("Login to nexus repository & push image")
     {
         // withCredentials([usernamePassword(credentialsId: nexusCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
         // {
@@ -33,15 +33,17 @@ node {
         docker.withRegistry("http://${nexusUrl}", "${nexusCredentialsId}") {
         docker.image("${imageName}:latest").push()
         
+        }
+        echo "pushed successfully.... "
     }
     
-    stage('Publish Image to Nexus Repository') {
-        def imageId = docker.image("${imageName}:${imageTag}").id
-        bat "docker tag ${imageId} ${nexusUrl}/${imageName}:${imageTag}"
-        bat "docker push ${nexusUrl}/${imageName}:${imageTag}"
-        echo "Image published to Nexus repository..."
+    // stage('Publish Image to Nexus Repository') {
+    //     def imageId = docker.image("${imageName}:${imageTag}").id
+    //     bat "docker tag ${imageId} ${nexusUrl}/${imageName}:${imageTag}"
+    //     bat "docker push ${nexusUrl}/${imageName}:${imageTag}"
+    //     echo "Image published to Nexus repository..."
         
-    }
+    // }
 
     
     stage('Deploy') {
