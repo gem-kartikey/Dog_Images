@@ -5,7 +5,7 @@ node {
     def nexusCredentialsId = '581ce8ff-8141-4238-aeda-893bcd450d08'
     def imageName = 'dog-image'  // Docker Hub repository name
     def imageTag = 'latest'
-    def nexusUrl = 'localhost:8082'
+    def nexusUrl = 'localhost:8082/repository/dog-image'
 
     stage('Clone Repository') {
         try {
@@ -25,7 +25,7 @@ node {
     {
         withCredentials([usernamePassword(credentialsId: nexusCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
         {
-            bat "echo %PASSWORD% | docker login $nexusUrl --username $USERNAME --password-stdin"
+            bat "echo $PASSWORD |docker login ${nexusUrl} --username $USERNAME --password-stdin"
         }
 
         // bat "echo jenkins | docker login -u jenkins --password-stdin ${nexusUrl}"
