@@ -34,7 +34,8 @@ node {
         docker.image("${imageName}:latest").push()
         
         
-        echo "pushed successfully.... "
+            echo "pushed successfully.... "
+        }
     }
     
     // stage('Publish Image to Nexus Repository') {
@@ -47,7 +48,7 @@ node {
 
     
     stage('Deploy') {
-        bat "docker run --name dogimage -p 4000:4000 ${nexusUrl}/${imageName}:${imageTag}"
+        bat "docker run --name dog-image -p 4000:4000 ${nexusUrl}/${imageName}:${imageTag}"
         // bat 'kubectl apply -f deployment.yaml'
         // bat 'kubectl apply -f service.yaml'
         echo "Deployment applied successfully..."
