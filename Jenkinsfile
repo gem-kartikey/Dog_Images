@@ -48,7 +48,7 @@ node {
 
     
     stage('Deploy') {
-        withEnv(["KUBECONFIG:${KUBE_CONFIG_PATH}"])
+        withEnv(["KUBECONFIG=${KUBE_CONFIG_PATH}"])
         {
             bat 'kubectl apply -f deployment.yaml'
             bat 'kubectl apply -f service.yaml'
