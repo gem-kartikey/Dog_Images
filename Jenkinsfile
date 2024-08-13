@@ -48,7 +48,7 @@ node {
 
     
     stage('Deploy') {
-        bat "docker run --name dog-image -p 4000:4000 ${nexusUrl}/${imageName}:${imageTag}"
+        bat "docker run --name dog-image -p 4000:4000 ${imageName}:${imageTag}"
         // bat 'kubectl apply -f deployment.yaml'
         // bat 'kubectl apply -f service.yaml'
         echo "Deployment applied successfully..."
