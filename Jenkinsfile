@@ -23,15 +23,15 @@ node {
 
     stage("Login to nexus repository & push image")
     {
-        // withCredentials([usernamePassword(credentialsId: nexusCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
-        // {
-        //     bat "echo %PASSWORD% |docker login ${nexusUrl} --username %USERNAME% --password-stdin"
-        // }
+        withCredentials([usernamePassword(credentialsId: nexusCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
+        {
+            bat "echo %PASSWORD% |docker login ${nexusUrl} --username %USERNAME% --password-stdin"
+        }
 
         // bat "echo jenkins | docker login -u jenkins --password-stdin ${nexusUrl}"
 
-        docker.withRegistry("http://${nexusUrl}", "${nexusCredentialsId}") {
-        docker.image("${imageName}:latest").push()
+        // docker.withRegistry("http://${nexusUrl}", "${nexusCredentialsId}") {
+        // docker.image("${imageName}:latest").push()
         
         }
         echo "pushed successfully.... "
