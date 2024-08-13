@@ -49,9 +49,12 @@ node {
     
     stage('Deploy') {
         withEnv(["KUBECONFIG:${KUBE_CONFIG_PATH}"])
+        {
+            bat 'kubectl apply -f deployment.yaml'
+            bat 'kubectl apply -f service.yaml'
+        }
         // bat "docker run --name dog-image -p 4000:4000 ${imageName}:${imageTag}"
-        bat 'kubectl apply -f deployment.yaml'
-        bat 'kubectl apply -f service.yaml'
+        
         echo "Deployment applied successfully..."
     }
 }
