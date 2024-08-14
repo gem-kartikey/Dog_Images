@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: dog-image
-        image: dog-image:latest
+        image: localhost:8082/dog-image:latest
         resources:
           limits:
             memory: "128Mi"
